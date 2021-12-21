@@ -6,22 +6,23 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.whitevega.opentodo.R
 import com.whitevega.opentodo.adapter.ListAdapter
+import com.whitevega.opentodo.databinding.ActivityMainBinding
 import com.whitevega.opentodo.viewmodel.MainActivityViewModel
 
 class MainActivity : AppCompatActivity() {
     private val viewModel = MainActivityViewModel()
-    private lateinit var recyclerView: RecyclerView
+    private  lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        recyclerView = findViewById(R.id.main_activity_recycler_view)
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        binding.activityMainRecyclerView.layoutManager = LinearLayoutManager(this)
 
         if (!viewModel.initialized) viewModel.initialize()
 
         val adapter = ListAdapter(viewModel.data)
-        recyclerView.adapter = adapter
+        binding.activityMainRecyclerView.adapter = adapter
     }
 }

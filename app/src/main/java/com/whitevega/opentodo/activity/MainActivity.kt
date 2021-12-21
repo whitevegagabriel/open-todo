@@ -2,19 +2,21 @@ package com.whitevega.opentodo.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.whitevega.opentodo.R
 import com.whitevega.opentodo.adapter.ListAdapter
 import com.whitevega.opentodo.databinding.ActivityMainBinding
 import com.whitevega.opentodo.viewmodel.MainActivityViewModel
 
 class MainActivity : AppCompatActivity() {
-    private val viewModel = MainActivityViewModel()
+    private lateinit var viewModel: MainActivityViewModel
     private  lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.whitevega.opentodo.R
 import com.whitevega.opentodo.viewmodel.ListItemViewModel
 
-class ListAdapter(private val mList: List<ListItemViewModel>, private val checkListener: (View, ListItemViewModel) -> Unit) : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
+class ListAdapter(private val mList: List<ListItemViewModel>, private val checkListener: (ListItemViewModel) -> Unit) : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -26,7 +26,7 @@ class ListAdapter(private val mList: List<ListItemViewModel>, private val checkL
 
         val checkBoxView: CheckBox = holder.itemView.findViewById(R.id.list_item_check_box)
         checkBoxView.setOnClickListener {
-                    checkListener(it, mListItemViewModel)}
+                    checkListener(mListItemViewModel)}
 
         if (checkBoxView.isChecked != mListItemViewModel.checked) checkBoxView.toggle()
     }

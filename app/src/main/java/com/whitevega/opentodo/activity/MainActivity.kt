@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkBoxToggled(v: View, mListItemViewModel: ListItemViewModel) {
+    private fun checkBoxToggled(mListItemViewModel: ListItemViewModel) {
         viewModel.toggleListItem(mListItemViewModel)
         val position = viewModel.deleteListItem(mListItemViewModel)
         Log.d(TAG, "item removed")

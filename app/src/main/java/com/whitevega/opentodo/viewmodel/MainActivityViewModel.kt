@@ -1,6 +1,5 @@
 package com.whitevega.opentodo.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 
 class MainActivityViewModel : ViewModel() {

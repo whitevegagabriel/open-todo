@@ -3,6 +3,7 @@ package com.whitevega.opentodo.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.whitevega.opentodo.R
@@ -19,8 +20,6 @@ class ListAdapter(private val mList: List<ListItemViewModel>) : RecyclerView.Ada
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val mListItemViewModel = mList[position]
-
-        holder.textView.text = mListItemViewModel.text
     }
 
     override fun getItemCount(): Int {
@@ -28,6 +27,6 @@ class ListAdapter(private val mList: List<ListItemViewModel>) : RecyclerView.Ada
     }
 
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
-        val textView: TextView = itemView.findViewById(R.id.list_item_text_view)
+        val editText: EditText = itemView.findViewById(R.id.list_item_edit_text)
     }
 }

@@ -2,13 +2,18 @@ package com.whitevega.opentodo.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.whitevega.opentodo.R
 import com.whitevega.opentodo.adapter.ListAdapter
 import com.whitevega.opentodo.databinding.ActivityMainBinding
+import com.whitevega.opentodo.viewmodel.ListItemViewModel
 import com.whitevega.opentodo.viewmodel.MainActivityViewModel
 
 class MainActivity : AppCompatActivity() {
+    private val TAG = this.javaClass.simpleName
     private lateinit var viewModel: MainActivityViewModel
     private  lateinit var binding: ActivityMainBinding
 
@@ -27,4 +32,12 @@ class MainActivity : AppCompatActivity() {
         val adapter = ListAdapter(viewModel.data)
         binding.activityMainRecyclerView.adapter = adapter
     }
+
+    fun addListItem(view: View) {
+        if (view.id == R.id.activity_main_plus_button) {
+            viewModel.data.add(ListItemViewModel())
+            binding.activityMainRecyclerView.adapter?.notifyItemInserted(viewModel.data.size-1)
+        }
+    }
+
 }

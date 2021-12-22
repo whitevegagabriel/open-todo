@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.CheckBox
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.whitevega.opentodo.R
@@ -29,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
         if (!viewModel.initialized) viewModel.initialize()
 
-        val adapter = ListAdapter(viewModel.data)
+        val adapter = ListAdapter(viewModel.data, this::checkBoxToggled)
         binding.activityMainRecyclerView.adapter = adapter
     }
 
@@ -37,7 +38,14 @@ class MainActivity : AppCompatActivity() {
         if (view.id == R.id.activity_main_plus_button) {
             viewModel.data.add(ListItemViewModel())
             binding.activityMainRecyclerView.adapter?.notifyItemInserted(viewModel.data.size-1)
+            Log.d(TAG, "item inserted")
         }
     }
 
+    private fun checkBoxToggled(v: View, mListItemViewModel: ListItemViewModel) {
+        viewModel.toggleListItem(mListItemViewModel)
+        val position = viewModel.deleteListItem(mListItemViewModel)
+        Log.d(TAG, "item removed")
+        binding.activityMainRecyclerView.adapter?.notifyItemRemoved(position)
+    }
 }

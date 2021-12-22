@@ -1,5 +1,6 @@
 package com.whitevega.opentodo.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 
 class MainActivityViewModel : ViewModel() {
@@ -8,5 +9,15 @@ class MainActivityViewModel : ViewModel() {
 
     fun initialize() {
         initialized = true
+    }
+
+    fun deleteListItem(mListItemViewModel: ListItemViewModel) : Int {
+        val index = data.indexOf(mListItemViewModel)
+        data.remove(mListItemViewModel)
+        return index
+    }
+
+    fun toggleListItem(mListItemViewModel: ListItemViewModel) {
+        mListItemViewModel.checked = !mListItemViewModel.checked
     }
 }

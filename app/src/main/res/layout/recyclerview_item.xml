@@ -2,20 +2,20 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/activity_main_list_item_height"
+    android:layout_height="@dimen/activity_main_recyclerview_item_height"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <CheckBox
-        android:id="@+id/list_item_check_box"
+        android:id="@+id/recyclerview_item_check_box"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
     <EditText
-        android:id="@+id/list_item_edit_text"
+        android:id="@+id/recyclerview_item_edit_text"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        app:layout_constraintStart_toEndOf="@+id/list_item_check_box"
+        app:layout_constraintStart_toEndOf="@+id/recyclerview_item_check_box"
         app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

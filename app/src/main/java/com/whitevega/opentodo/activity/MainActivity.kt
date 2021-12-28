@@ -4,48 +4,64 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.CheckBox
+import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.whitevega.opentodo.R
-import com.whitevega.opentodo.adapter.ListAdapter
+import com.whitevega.opentodo.TodoApplication
+import com.whitevega.opentodo.adapter.TodoListAdapter
+import com.whitevega.opentodo.data.Todo
 import com.whitevega.opentodo.databinding.ActivityMainBinding
-import com.whitevega.opentodo.viewmodel.ListItemViewModel
 import com.whitevega.opentodo.viewmodel.MainActivityViewModel
+import com.whitevega.opentodo.viewmodel.TodoViewModel
+import com.whitevega.opentodo.viewmodel.TodoViewModelFactory
 
 class MainActivity : AppCompatActivity() {
     private val TAG = this.javaClass.simpleName
     private lateinit var viewModel: MainActivityViewModel
     private  lateinit var binding: ActivityMainBinding
+    private val todoViewModel: TodoViewModel by viewModels {
+        TodoViewModelFactory((application as TodoApplication).repository)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
+        viewModel = ViewModelProvider(this)[MainActivityViewModel::class.java]
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val adapter = TodoListAdapter(this::deleteListItem, this::editListItem)
         binding.activityMainRecyclerView.layoutManager = LinearLayoutManager(this)
-
-        if (!viewModel.initialized) viewModel.initialize()
-
-        val adapter = ListAdapter(viewModel.data, this::checkBoxToggled)
         binding.activityMainRecyclerView.adapter = adapter
+
+        todoViewModel.allTodos.observe(this, { todos ->
+            todos?.let { adapter.submitList(it) }
+        })
+
+        val fab = findViewById<FloatingActionButton>(R.id.activity_main_plus_button)
+        fab.setOnClickListener {
+            addListItem(it)
+        }
     }
 
-    fun addListItem(view: View) {
+    private fun addListItem(view: View) {
         if (view.id == R.id.activity_main_plus_button) {
-            viewModel.data.add(ListItemViewModel())
-            binding.activityMainRecyclerView.adapter?.notifyItemInserted(viewModel.data.size-1)
+            val todo = Todo(0, false, "")
+            todoViewModel.insert(todo)
             Log.d(TAG, "item inserted")
         }
     }
 
-    private fun checkBoxToggled(mListItemViewModel: ListItemViewModel) {
-        viewModel.toggleListItem(mListItemViewModel)
-        val position = viewModel.deleteListItem(mListItemViewModel)
-        Log.d(TAG, "item removed")
-        binding.activityMainRecyclerView.adapter?.notifyItemRemoved(position)
+    private fun deleteListItem(todo: Todo) {
+        todoViewModel.delete(todo)
     }
+
+    private fun editListItem(todo: Todo, newText: String) {
+        val newTodo = Todo(todo.id, todo.checked, newText)
+        todoViewModel.update(newTodo)
+    }
+
 }
